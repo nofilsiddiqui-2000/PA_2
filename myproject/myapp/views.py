@@ -40,15 +40,26 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
+@login_required
 def faq_list(request):
-    faqs = FAQQueryService.list_all_faqs()
-    search_form = FAQSearchForm(request.GET)
-    if search_form.is_valid():
-        query = search_form.cleaned_data.get('query')
-        if query:
-            faqs = faqs.filter(question__icontains=query)
-    return render(request, 'faq_list.html', {'faqs': faqs, 'search_form': search_form})
+    if request.method == 'POST':
+        form = FAQForm(request.POST)
+        if form.is_valid():
+            faq = form.save(commit=False)
+            faq.submitted_by = request.user
+            faq.save()
+            return redirect('faq_list')
+    else:
+        form = FAQForm()
 
+    search_form = FAQSearchForm(request.GET or None)
+    if search_form.is_valid():
+        search_query = search_form.cleaned_data['search_query']
+        faqs = FAQ.objects.filter(question__icontains=search_query)
+    else:
+        faqs = FAQ.objects.all()
+
+    return render(request, 'faq_list.html', {'faqs': faqs, 'form': form, 'search_form': search_form})
 
 @login_required
 def profile(request):

@@ -8,8 +8,8 @@
 
 <!-- Search Form -->
 <form method="get" action="{% url 'faq_list' %}">
-    {{ search_form.query.label_tag }} {{ search_form.query }}
-    <button type="submit" class="btn btn-primary">Search</button>
+    {{ search_form.as_p }}
+    <button type="submit">Search</button>
 </form>
 <br>
 

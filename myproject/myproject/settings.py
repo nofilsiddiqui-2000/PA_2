@@ -29,7 +29,10 @@ SECRET_KEY = "django-insecure-vwi(b9!1im@&vgzx57vf^_t4nb(fxpohuy$qn6lffl5=n!dn_)
 DEBUG = True
 
 # ALLOWED_HOSTS = []
-ALLOWED_HOSTS = ['nofilsiddiqui.pythonanywhere.com']
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+]
 
 
 
