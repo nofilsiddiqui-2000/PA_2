@@ -57,4 +57,4 @@ class EventForm(forms.ModelForm):
         fields = ['title', 'description', 'date', 'time']
 
 class FAQSearchForm(forms.Form):
-    query = forms.CharField(label='Search', max_length=100)
+    search_query = forms.CharField(label='Search', max_length=100)
