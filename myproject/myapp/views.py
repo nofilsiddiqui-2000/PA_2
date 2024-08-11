@@ -8,6 +8,7 @@ from .models import UserProfile, FAQ  # Ensure FAQ is imported
 from .forms import FAQSearchForm  # Add this import
 from .services.commands import FAQCommandService
 from .services.queries import FAQQueryService
+from django.http import HttpResponse
 
 def home(request):
     return render(request, 'home.html')
@@ -40,6 +41,7 @@ def user_login(request):
         form = AuthenticationForm()
     return render(request, 'login.html', {'form': form})
 
+
 @login_required
 def faq_list(request):
     if request.method == 'POST':
@@ -53,13 +55,16 @@ def faq_list(request):
         form = FAQForm()
 
     search_form = FAQSearchForm(request.GET or None)
+    faqs = FAQ.objects.all()
+
     if search_form.is_valid():
-        search_query = search_form.cleaned_data['search_query']
-        faqs = FAQ.objects.filter(question__icontains=search_query)
-    else:
-        faqs = FAQ.objects.all()
+        search_query = search_form.cleaned_data.get('search_query')
+        print(f"Search Query: {search_query}")  # Debugging statement
+        if search_query:
+            faqs = faqs.filter(question__icontains=search_query)
 
     return render(request, 'faq_list.html', {'faqs': faqs, 'form': form, 'search_form': search_form})
+
 
 @login_required
 def profile(request):

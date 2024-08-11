@@ -1,4 +1,3 @@
-<!-- myapp/templates/faq_list.html -->
 {% extends 'base.html' %}
 
 {% block title %}FAQ - Concordia University{% endblock %}
@@ -24,21 +23,25 @@
 
 <!-- FAQ List -->
 <div class="accordion" id="accordionExample">
-    {% for faq in faqs %}
-        <div class="card">
-            <div class="card-header" id="heading{{ forloop.counter }}">
-                <h2 class="mb-0">
-                    <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
-                        {{ faq.question }}
-                    </button>
-                </h2>
-            </div>
-            <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordionExample">
-                <div class="card-body">
-                    {{ faq.answer }}
+    {% if faqs %}
+        {% for faq in faqs %}
+            <div class="card">
+                <div class="card-header" id="heading{{ forloop.counter }}">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link text-left" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                            {{ faq.question }}
+                        </button>
+                    </h2>
+                </div>
+                <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordionExample">
+                    <div class="card-body">
+                        {{ faq.answer }}
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
+    {% else %}
+        <p>No FAQs found matching your search query.</p>
+    {% endif %}
 </div>
 {% endblock %}
